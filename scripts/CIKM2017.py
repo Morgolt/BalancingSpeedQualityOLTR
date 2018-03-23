@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import os
+import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.datasimulation import DataSimulation
 from utils.argparsers.embeddingargparser import EmbeddingArgumentParser
@@ -24,7 +25,7 @@ parser = EmbeddingArgumentParser(description=description, set_arguments={
     'drop_decay': 0,
     'enable_drop': False,
     'min_embedding_features': None,
-    })
+})
 
 rankers = []
 for vec in [50]:
@@ -45,14 +46,14 @@ for vec in [50]:
 
     ranker_params = {'conv_hist': 10, 'change_threshold': 0.01, 'linear_renorm': False}
     arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
-    run_name = 'DocSim_cascade%dhist%sthres_linear_%dvectors' % (ranker_params['conv_hist'], ranker_params['change_threshold'], vec)
+    run_name = 'DocSim_cascade%dhist%sthres_linear_%dvectors' % (
+    ranker_params['conv_hist'], ranker_params['change_threshold'], vec)
     rankers.append((arg_str, run_name, DocSim, [emb_args, mgd_args], ranker_params))
 
     ranker_params = {'conv_hist': 10, 'change_threshold': 0.01, 'linear_renorm': False}
     arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
     run_name = 'DocSim_cascadeKMeans_%dvectors' % (vec)
     rankers.append((arg_str, run_name, CascadeKMeans, [emb_args, mgd_args], ranker_params))
-
 
 sim = DataSimulation(sim_args)
 sim.run(rankers)

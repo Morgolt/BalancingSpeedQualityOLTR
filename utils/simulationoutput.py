@@ -23,7 +23,7 @@ class FileOutput(object):
         self._also_print = also_print
         self._original_stdout = sys.stdout
         self.write_date = write_date
-        self._output_file = open(self._output_file_path, 'w')
+        self._output_file = open(self._output_file_path, "w")
         self._file_open = True
         self._new_line = True
         self._closed = False
@@ -101,13 +101,12 @@ def get_simulation_report(simulation_arguments):
     file_name = sys.argv[0]
     if file_name[-3:] == ".py":
         file_name = file_name[:-3].split("/")[-1]
-    date_str = file_name + "-" + time.strftime('Log-%y-%m-%d-%X')
+    date_str = file_name + "-" + time.strftime('Log-%y-%m-%d')
 
     if not simulation_arguments.log_folder is None \
         and os.path.isdir(simulation_arguments.log_folder):
-        output_path = simulation_arguments.log_folder + '/' + date_str.replace(' ', '-') + '.txt'
-        header = ['Starting simulation at %s.' % date_str, 'Log is also stored in output file at %s'
-                   % output_path]
+        output_path = os.path.join(simulation_arguments.log_folder, date_str.replace(' ', '-') + '.txt')
+        header = ['Starting simulation at %s.' % date_str, 'Log is also stored in output file at %s' % output_path]
         return FileOutput(output_path, output_header=header, also_print=True, write_date=True)
     else:
         header = ['Starting simulation.',
@@ -132,8 +131,7 @@ class SimulationOutput(object):
         self.print_output = simulation_arguments.print_output
         self._expected_runs = dataset.num_runs_per_fold * dataset.num_folds * num_click_models
         self._closed = False
-        self.output_path = '%s/%s/%s.out' % (self.output_folder, self.dataset_name,
-                                             self.simulation_name)
+        self.output_path = os.path.join(self.output_folder, self.dataset_name, self.simulation_name)
         output_header = [argument_str, '--------START--------']
         if self.print_output:
             self.file_output = BufferPrintOutput(output_header=output_header)

@@ -130,12 +130,12 @@ def get_fold_data(folder, validation_as_test=False, train_only=False, store_pick
     if not train_read:
         doclists = []
         labels   = []
-        _, n_doclists, n_labels, training_features = read_file(folder+"train.txt")
+        _, n_doclists, n_labels, training_features = read_file(os.path.join(folder, "train.txt"))
         doclists.extend(n_doclists)
         labels.extend(  n_labels)
 
         if not validation_as_test:
-            _, n_doclists, n_labels, training_features = read_file(folder+"vali.txt",training_features)
+            _, n_doclists, n_labels, training_features = read_file(os.path.join(folder, "vali.txt"), training_features)
             doclists.extend(n_doclists)
             labels.extend(  n_labels)
 
@@ -154,9 +154,9 @@ def get_fold_data(folder, validation_as_test=False, train_only=False, store_pick
     
     if not train_only and not test_read:
         if not validation_as_test:
-            _, test_doclists, test_labels, _ = read_file(folder+"test.txt")
+            _, test_doclists, test_labels, _ = read_file(os.path.join(folder, "test.txt"))
         else:
-            _, test_doclists, test_labels, _ = read_file(folder+"vali.txt")
+            _, test_doclists, test_labels, _ = read_file(os.path.join(folder, "vali.txt"))
 
         test_feature_matrix, test_doclist_ranges, test_label_vector = convert_featureDicts(test_doclists, test_labels,feature_map)
         del test_doclists,test_labels

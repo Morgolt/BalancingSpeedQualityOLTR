@@ -33,7 +33,7 @@ class OutputAverager(object):
 
     def create_average_file(self, simulation_output):
         output_file = simulation_output.output_path
-        self.output_path = '%s/%s/%s.out' % (self.average_folder, simulation_output.dataset_name,
+        self.output_path = os.path.join(self.average_folder, simulation_output.dataset_name,
                                              simulation_output.simulation_name)
         click_model_names = []
         indices = {}
@@ -164,7 +164,7 @@ class OutputAverager(object):
                         output_txt += print_array(np.std(other_matrix, axis=0))
 
                 create_folders(self.output_path)
-                with open(self.output_path, 'w') as w:
+                with open(self.output_path, "w") as w:
                     w.write(output_txt[:-1])
                     print 'Closed %d: %s on %s was averaged and stored.' % (self._average_index,
                             simulation_output.simulation_name, simulation_output.dataset_name)

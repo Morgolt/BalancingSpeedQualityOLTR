@@ -3,6 +3,7 @@
 import sys
 import os
 import random
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.dataset import DataSet
 
@@ -44,9 +45,9 @@ def get_datasets(sim_args):
         assert data_tag in DATASET_COLLECTION, 'Command line input is currently not supported.'
         yield DATASET_COLLECTION[data_tag]
 
-
+data_fold = "D:/Projects/Lerot3/data"
 DATASET_COLLECTION = {}
-DATASET_COLLECTION['NP2003'] = DataSet('2003_np', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/2003_np_dataset/Fold*/',
+DATASET_COLLECTION['NP2003'] = DataSet('2003_np', os.path.join(data_fold, 'NP2003', 'Fold*'),
                                        'bin', True, 59,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
@@ -55,7 +56,7 @@ DATASET_COLLECTION['NP2003'] = DataSet('2003_np', '/zfs/ilps-plex1/slurm/datasto
                                                [41,42],      #SiteMap
                                                [49,50]       #HITS
                                              ])
-DATASET_COLLECTION['NP2004'] = DataSet('2004_np', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/2004_np_dataset/Fold*/',
+DATASET_COLLECTION['NP2004'] = DataSet('2004_np', os.path.join(data_fold, 'NP2004', 'Fold*'),
                                        'bin', True, 64,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
@@ -64,7 +65,7 @@ DATASET_COLLECTION['NP2004'] = DataSet('2004_np', '/zfs/ilps-plex1/slurm/datasto
                                                [41,42],      #SiteMap
                                                [49,50]       #HITS #19 total
                                              ])
-DATASET_COLLECTION['HP2003'] = DataSet('2003_hp', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/2003_hp_dataset/Fold*/',
+DATASET_COLLECTION['HP2003'] = DataSet('2003_hp', os.path.join(data_fold, 'HP2003', 'Fold*'),
                                        'bin', True, 59,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
@@ -73,7 +74,7 @@ DATASET_COLLECTION['HP2003'] = DataSet('2003_hp', '/zfs/ilps-plex1/slurm/datasto
                                                [41,42],      #SiteMap
                                                [49,50]       #HITS
                                              ])
-DATASET_COLLECTION['HP2004'] = DataSet('2004_hp', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/2004_hp_dataset/Fold*/',
+DATASET_COLLECTION['HP2004'] = DataSet('2004_hp', os.path.join(data_fold, 'HP2004', 'Fold*'),
                                        'bin', True, 64,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
@@ -82,7 +83,7 @@ DATASET_COLLECTION['HP2004'] = DataSet('2004_hp', '/zfs/ilps-plex1/slurm/datasto
                                                [41,42],      #SiteMap
                                                [49,50]       #HITS
                                              ])
-DATASET_COLLECTION['TD2003'] = DataSet('2003_td', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/2003_td_dataset/Fold*/',
+DATASET_COLLECTION['TD2003'] = DataSet('2003_td', os.path.join(data_fold, 'TD2003', 'Fold*'),
                                        'bin', True, 59,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
@@ -91,7 +92,7 @@ DATASET_COLLECTION['TD2003'] = DataSet('2003_td', '/zfs/ilps-plex1/slurm/datasto
                                                [41,42],      #SiteMap
                                                [49,50]       #HITS
                                              ])
-DATASET_COLLECTION['TD2004'] = DataSet('2004_td', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/2004_td_dataset/Fold*/',
+DATASET_COLLECTION['TD2004'] = DataSet('2004_td', os.path.join(data_fold, 'TD2004', 'Fold*'),
                                        'bin', True, 64,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
@@ -101,24 +102,21 @@ DATASET_COLLECTION['TD2004'] = DataSet('2004_td', '/zfs/ilps-plex1/slurm/datasto
                                                [49,50]       #HITS
                                              ])
 
-DATASET_COLLECTION['MQ2008'] = DataSet('MQ2008', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/MQ2008/Fold*/', 'short',
+DATASET_COLLECTION['MQ2008'] = DataSet('MQ2008', os.path.join(data_fold, 'MQ2008', 'Fold*'), 'short',
                                        True, 40,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
                                                range(21,26), #BM25
                                                range(26,41)  #LMIR #25 total
                                              ])
-DATASET_COLLECTION['MQ2007'] = DataSet('MQ2007', [
-                                '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/MQ2007/Fold*/',
-                                '/Users/hroosterhuis/ILPS/datasets/MQ2007/Fold*/'
-                                ], 'short',
+DATASET_COLLECTION['MQ2007'] = DataSet('MQ2007', os.path.join(data_fold, 'MQ2007', 'Fold*'), 'short',
                                        True, 41,
                                        multileave_feat=[
                                                range(11,16), #TF-IDF
                                                range(21,26), #BM25
                                                range(26,41)  #LMIR
                                              ])
-DATASET_COLLECTION['OHSUMED'] = DataSet('OHSUMED', '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/OHSUMED/Fold*/', 'short'
+DATASET_COLLECTION['OHSUMED'] = DataSet('OHSUMED', os.path.join(data_fold, 'OHSUMED', 'Fold*'), 'short'
                                         , True, 36,
                                        multileave_feat=[
                                                #[6,7],       #HITS
