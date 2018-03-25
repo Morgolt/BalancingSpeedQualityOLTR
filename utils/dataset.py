@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import sharedmem
-import glob
-import numpy as np
-import os.path
-import gc
-import math
 import cPickle
+import gc
+import glob
+import math
+import os.path
+
+import numpy as np
+import sharedmem
 
 FOLDDATA_WRITE_VERSION = 3
 
 
 class DataSet(object):
-
     """
     Class designed to manage meta-data for datasets.
     """
@@ -48,12 +48,13 @@ class DataSet(object):
                 elif type(feat) == int:
                     self._multileave_feat.append(str(feat))
                 elif type(feat) == list:
-                    assert all(type(x) in [int,str] for x in feat), 'Tried to add non int feature in list for  %s.' % self.name
+                    assert all(type(x) in [int, str] for x in
+                               feat), 'Tried to add non int feature in list for  %s.' % self.name
                     self._multileave_feat.extend([str(x) for x in feat])
                 else:
                     assert False, "Invalid feature type %s given for dataset %s." % (type(feat), self.name)
         else:
-            self._multileave_feat = [str(x) for x in range(1,self.num_features+1)]
+            self._multileave_feat = [str(x) for x in range(1, self.num_features + 1)]
 
     def num_data_folds(self):
         return len(self.data_paths)
@@ -67,6 +68,7 @@ class DataSet(object):
 
     def multileave_feat(self):
         return self._multileave_feat
+
 
 class DataFold(object):
 
@@ -221,7 +223,7 @@ class DataFold(object):
             end = index
             if query_level_norm:
                 feature_matrix[:, start:end] -= np.amin(feature_matrix[:, start:end], axis=1)[:,
-                        None]
+                                                None]
                 safe_max = np.amax(feature_matrix[:, start:end], axis=1)
                 safe_ind = safe_max != 0
                 feature_matrix[safe_ind, start:end] /= safe_max[safe_ind][:, None]
@@ -232,7 +234,7 @@ class DataFold(object):
             qptr[i + 1] = ra[1]
 
         return self._make_shared(feature_matrix), self._make_shared(qptr), \
-            self._make_shared(label_vector)
+               self._make_shared(label_vector)
 
     def read_data(self):
         """
@@ -256,9 +258,9 @@ class DataFold(object):
             train_pickle_name = 'binarized_train.npz'
             test_pickle_name = 'binarized_test.npz'
 
-        train_pickle_path = self.data_path + train_pickle_name
-        test_pickle_path = self.data_path + test_pickle_name
-        fmap_pickle_path = self.data_path + 'binarized_fmap.pickle'
+        train_pickle_path = os.path.join(self.data_path, train_pickle_name)
+        test_pickle_path = os.path.join(self.data_path, test_pickle_name)
+        fmap_pickle_path = os.path.join(self.data_path, 'binarized_fmap.pickle')
         if read_from_pickle:
             if os.path.isfile(fmap_pickle_path):
                 with open(fmap_pickle_path, 'rb') as f:
@@ -269,8 +271,7 @@ class DataFold(object):
             if os.path.isfile(train_pickle_path):
                 loaded_data = np.load(train_pickle_path)
                 del loaded_data.f
-                if 'train_version' in loaded_data and loaded_data['train_version'] \
-                    == FOLDDATA_WRITE_VERSION:
+                if 'train_version' in loaded_data and loaded_data['train_version'] == FOLDDATA_WRITE_VERSION:
                     self.train_feature_matrix = self._make_shared(loaded_data['feature_matrix'])
                     self.train_doclist_ranges = self._make_shared(loaded_data['doclist_ranges'])
                     self.train_label_vector = self._make_shared(loaded_data['label_vector'])
@@ -281,7 +282,7 @@ class DataFold(object):
                 loaded_data = np.load(test_pickle_path)
                 del loaded_data.f
                 if 'test_version' in loaded_data and loaded_data['test_version'] \
-                    == FOLDDATA_WRITE_VERSION:
+                        == FOLDDATA_WRITE_VERSION:
                     self.test_feature_matrix = self._make_shared(loaded_data['test_feature_matrix'])
                     self.test_doclist_ranges = self._make_shared(loaded_data['test_doclist_ranges'])
                     self.test_label_vector = self._make_shared(loaded_data['test_label_vector'])
@@ -352,9 +353,9 @@ class DataFold(object):
             self.num_features = self.train_feature_matrix.shape[0]
         assert self.num_features == self.train_feature_matrix.shape[0], \
             'Expected %d features but found %d in training matrix' % (self.num_features,
-                self.train_feature_matrix.shape[0])
+                                                                      self.train_feature_matrix.shape[0])
         if not train_only:
             assert self.num_features == self.test_feature_matrix.shape[0], \
                 'Expected %d features but found %d in test matrix' % (self.num_features,
-                    self.test_feature_matrix.shape[0])
+                                                                      self.test_feature_matrix.shape[0])
         self._data_ready = True

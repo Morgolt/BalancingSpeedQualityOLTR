@@ -36,24 +36,24 @@ for vec in [50]:
     run_name = 'PMGD19cand'
     rankers.append((arg_str, run_name, ProbMeanBandit, [mgd_args], {}))
 
-    run_name = 'DocSim_StaticKMeans_%dvectors' % vec
-    rankers.append((arg_str, run_name, StaticKMeans, [emb_args, mgd_args], ranker_params))
-
-    ranker_params = {'gradient_weight': float(0), 'kernel': 'linear'}
-    arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
-    run_name = 'DocSim_linear_%dvectors' % vec
-    rankers.append((arg_str, run_name, NormalizedSVMBandit, [emb_args, mgd_args], ranker_params))
-
-    ranker_params = {'conv_hist': 10, 'change_threshold': 0.01, 'linear_renorm': False}
-    arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
-    run_name = 'DocSim_cascade%dhist%sthres_linear_%dvectors' % (
-    ranker_params['conv_hist'], ranker_params['change_threshold'], vec)
-    rankers.append((arg_str, run_name, DocSim, [emb_args, mgd_args], ranker_params))
-
-    ranker_params = {'conv_hist': 10, 'change_threshold': 0.01, 'linear_renorm': False}
-    arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
-    run_name = 'DocSim_cascadeKMeans_%dvectors' % (vec)
-    rankers.append((arg_str, run_name, CascadeKMeans, [emb_args, mgd_args], ranker_params))
+    # run_name = 'DocSim_StaticKMeans_%dvectors' % vec
+    # rankers.append((arg_str, run_name, StaticKMeans, [emb_args, mgd_args], ranker_params))
+    #
+    # ranker_params = {'gradient_weight': float(0), 'kernel': 'linear'}
+    # arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
+    # run_name = 'DocSim_linear_%dvectors' % vec
+    # rankers.append((arg_str, run_name, NormalizedSVMBandit, [emb_args, mgd_args], ranker_params))
+    #
+    # ranker_params = {'conv_hist': 10, 'change_threshold': 0.01, 'linear_renorm': False}
+    # arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
+    # run_name = 'DocSim_cascade%dhist%sthres_linear_%dvectors' % (
+    # ranker_params['conv_hist'], ranker_params['change_threshold'], vec)
+    # rankers.append((arg_str, run_name, DocSim, [emb_args, mgd_args], ranker_params))
+    #
+    # ranker_params = {'conv_hist': 10, 'change_threshold': 0.01, 'linear_renorm': False}
+    # arg_str, args, sim_args, mgd_args, emb_args = parser.parse_all_args(ranker_params)
+    # run_name = 'DocSim_cascadeKMeans_%dvectors' % (vec)
+    # rankers.append((arg_str, run_name, CascadeKMeans, [emb_args, mgd_args], ranker_params))
 
 sim = DataSimulation(sim_args)
 sim.run(rankers)

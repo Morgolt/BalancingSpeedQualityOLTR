@@ -2,10 +2,9 @@
 
 import random
 import time
-import numpy as np
-from folddata import get_fold_data
-from evaluate import get_idcg_list, evaluate, evaluate_ranking
+
 from clicks import *
+from evaluate import get_idcg_list, evaluate, evaluate_ranking
 
 
 class SingleSimulation(object):
@@ -51,10 +50,11 @@ class SingleSimulation(object):
             r_i = random.choice(range(len(self.datafold.train_doclist_ranges) - 1))
 
             train_ranking = ranker.get_train_ranking(self.datafold.train_feature_matrix,
-                    self.datafold.train_doclist_ranges, r_i)[:self.k]
+                                                     self.datafold.train_doclist_ranges, r_i)[:self.k]
             ranking_labels = \
-                self.datafold.train_label_vector[self.datafold.train_doclist_ranges[r_i]:self.datafold.train_doclist_ranges[r_i
-                    + 1]]
+                self.datafold.train_label_vector[
+                self.datafold.train_doclist_ranges[r_i]:self.datafold.train_doclist_ranges[r_i
+                                                                                           + 1]]
             impressions += 1
 
             clicks = self.click_model.generate_clicks(np.array(train_ranking), ranking_labels)
@@ -63,19 +63,21 @@ class SingleSimulation(object):
                                         >= self.print_frequency):
 
                 test_rankings = ranker.get_test_rankings(self.datafold.test_feature_matrix,
-                        self.datafold.test_doclist_ranges, inverted=True)
+                                                         self.datafold.test_doclist_ranges, inverted=True)
 
                 cur_string = ''
                 cur_string += str(impressions)
                 cur_string += ' %s:' % self.datafold.heldout_tag
                 cur_string += ' %.6f' % np.mean(evaluate(test_rankings,
-                                                self.datafold.test_label_vector,
-                                                self.test_idcg_vector,
-                                                self.datafold.test_doclist_ranges.shape[0] - 1,
-                                                self.k))
+                                                         self.datafold.test_label_vector,
+                                                         self.test_idcg_vector,
+                                                         self.datafold.test_doclist_ranges.shape[0] - 1,
+                                                         self.k))
                 cur_string += ' TRAIN: %.6f ' % np.mean(evaluate_ranking(train_ranking,
-                        ranking_labels,
-                        self.train_idcg_vector[self.datafold.train_doclist_ranges[r_i]], self.k))
+                                                                         ranking_labels,
+                                                                         self.train_idcg_vector[
+                                                                             self.datafold.train_doclist_ranges[r_i]],
+                                                                         self.k))
                 if self.print_feature_count:
                     cur_string += ' N_FEAT: %d ' % ranker.feature_count
                 for name, value in ranker.get_messages().items():
@@ -90,8 +92,10 @@ class SingleSimulation(object):
                 cur_string = ''
                 cur_string += str(impressions)
                 cur_string += ' TRAIN: %.6f ' % np.mean(evaluate_ranking(train_ranking,
-                        ranking_labels,
-                        self.train_idcg_vector[self.datafold.train_doclist_ranges[r_i]], self.k))
+                                                                         ranking_labels,
+                                                                         self.train_idcg_vector[
+                                                                             self.datafold.train_doclist_ranges[r_i]],
+                                                                         self.k))
                 if self.print_feature_count:
                     cur_string += 'N_FEAT: %d ' % ranker.feature_count
                 for name, value in ranker.get_messages().items():
@@ -103,8 +107,9 @@ class SingleSimulation(object):
                     print cur_string
 
             history_event = r_i, clicks, train_ranking, self.datafold.train_feature_matrix[:,
-                    self.datafold.train_doclist_ranges[r_i]:self.datafold.train_doclist_ranges[r_i
-                    + 1]]
+                                                        self.datafold.train_doclist_ranges[r_i]:
+                                                        self.datafold.train_doclist_ranges[r_i
+                                                                                           + 1]]
             ranker.process_clicks(clicks, history_event)
 
             if print_counter >= self.print_frequency:
@@ -115,26 +120,28 @@ class SingleSimulation(object):
         train_ranking = ranker.get_train_ranking(self.datafold.train_feature_matrix,
                                                  self.datafold.train_doclist_ranges, r_i)[:self.k]
         ranking_labels = \
-            self.datafold.train_label_vector[self.datafold.train_doclist_ranges[r_i]:self.datafold.train_doclist_ranges[r_i
-                + 1]]
+            self.datafold.train_label_vector[
+            self.datafold.train_doclist_ranges[r_i]:self.datafold.train_doclist_ranges[r_i
+                                                                                       + 1]]
         impressions += 1
 
         cur_string = ''
         cur_string += str(impressions)
         if not self.train_only:
             test_rankings = ranker.get_test_rankings(self.datafold.test_feature_matrix,
-                    self.datafold.test_doclist_ranges, inverted=True)
+                                                     self.datafold.test_doclist_ranges, inverted=True)
             cur_string += ' %s:' % self.datafold.heldout_tag
             cur_string += ' %.6f' % np.mean(evaluate(test_rankings,
-                                            self.datafold.test_label_vector, self.test_idcg_vector,
-                                            self.datafold.test_doclist_ranges.shape[0] - 1, self.k))
+                                                     self.datafold.test_label_vector, self.test_idcg_vector,
+                                                     self.datafold.test_doclist_ranges.shape[0] - 1, self.k))
         cur_string += ' TRAIN: %.6f ' % np.mean(evaluate_ranking(train_ranking, ranking_labels,
-                                                self.train_idcg_vector[self.datafold.train_doclist_ranges[r_i]],
-                                                self.k))
+                                                                 self.train_idcg_vector[
+                                                                     self.datafold.train_doclist_ranges[r_i]],
+                                                                 self.k))
         if self.print_feature_count:
             cur_string += ' N_FEAT: %d ' % ranker.feature_count
         for name, value in ranker.get_messages().items():
-                    cur_string += ' %s: %s ' % (name, value)
+            cur_string += ' %s: %s ' % (name, value)
         cur_string += str(ranker.last_interleaving)
 
         self.output_list.append(cur_string)
