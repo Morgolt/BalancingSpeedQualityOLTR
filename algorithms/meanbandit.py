@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import os
+import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.rankings import get_score_rankings, get_candidate_score_rankings
-from multileaving.interleaving import teamDraftMultileaving, maxIndices
+from multileaving.interleaving import teamDraftMultileaving
 import multileaving.candidatepreselection as cps
 import numpy as np
-import random
 
 
 class MeanBandit(object):
@@ -48,7 +48,7 @@ class MeanBandit(object):
         else:
             self.cand_select_method = mgd_arguments.cand_select_method
         assert self.cand_select_method == 'random' or self.cand_select_method == 'CPS' \
-            and (self.biased or not self.biased)
+               and (self.biased or not self.biased)
         if self.cand_select_method == 'CPS':
             self.history = True
             self.history_list = []
@@ -94,7 +94,7 @@ class MeanBandit(object):
         if self.generating_method == 'random':
             vectors = np.random.randn(self.feature_count, self.n_generate)
             weights = self.current_best[:, 0][:, None] + vectors / (np.sum(np.abs(vectors) ** 2,
-                    axis=0) ** (1. / 2))[None, :] * self.unit
+                                                                           axis=0) ** (1. / 2))[None, :] * self.unit
             return weights
         elif self.generating_method == 'factorized':
             vectors = np.zeros((self.feature_count, self.n_cand))
@@ -116,7 +116,7 @@ class MeanBandit(object):
     def get_train_ranking(self, feature_matrix, doc_ranges, ranking_i):
         # non-interleaved rankings
         self.cand_rankings = get_candidate_score_rankings(self.weights, feature_matrix, doc_ranges,
-                ranking_i)
+                                                          ranking_i)
         # let CPS know that we are not using PM
         self.inverted = None
         # candidate rankings are multileaved
@@ -140,7 +140,7 @@ class MeanBandit(object):
                 else:
                     inverted = self.inverted
                 sample_prob = cps.probability_of_result_list(result_list, self.inverted)
-                history_event = history_event + (sample_prob, )
+                history_event = history_event + (sample_prob,)
             self.history_list.append(history_event)
             if len(self.history_list) > self.history_len:
                 self.history_list = self.history_list[:-self.history_len]
@@ -156,7 +156,7 @@ class MeanBandit(object):
         if np.any(clicks):
 
             total_clicks = np.sum(np.logical_and(np.arange(self.n_cand + 1, dtype=np.int32)[:,
-                                  None] == self.teams[None, :], (clicks > 0)[None, :]), axis=1)
+                                                 None] == self.teams[None, :], (clicks > 0)[None, :]), axis=1)
 
             winners = np.argwhere(total_clicks == np.amax(total_clicks)).flatten()
 
@@ -165,6 +165,6 @@ class MeanBandit(object):
                 n_winners = winners.shape[0]
                 self.last_interleaving = n_winners
                 self.current_best += (self.alpha * np.sum(self.weights[:, winners]
-                                      - self.current_best[:, 0][:, None], axis=1) / n_winners)[:,
-                        None]
+                                                          - self.current_best[:, 0][:, None], axis=1) / n_winners)[:,
+                                     None]
                 self.model_updates += 1

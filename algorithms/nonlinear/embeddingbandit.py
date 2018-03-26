@@ -152,8 +152,7 @@ class EmbeddingBandit(ProbMeanBandit):
                                  index_range[1] - index_range[0]))
             embedding[:feature_matrix.shape[0], :] = feature_matrix[:, index_range[0]:index_range[1]]
             embedding[feature_matrix.shape[0]:, :] = self.get_embedding(embedding[:
-                    feature_matrix.shape[0], :], embedding[
-                    feature_matrix.shape[0]:, :])
+                    feature_matrix.shape[0], :], embedding[feature_matrix.shape[0]:, :])
         return embedding
 
     def get_partial_embedding(self, feat_matrix, feat_indices):
