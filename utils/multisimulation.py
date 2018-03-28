@@ -29,8 +29,8 @@ class MultiSimulation(object):
             self.max_folds = len(self.data_folders)
         else:
             self.max_folds = simulation_arguments.max_folds
-        self.read_bin_data = simulation_arguments.read_binarized_data
-        self.store_bin_data = simulation_arguments.store_binarized_data_after_read
+        self.read_bin_data = False#simulation_arguments.read_binarized_data
+        self.store_bin_data = False#simulation_arguments.store_binarized_data_after_read
 
         self.n_runs = simulation_arguments.n_runs
 

@@ -3,8 +3,6 @@
 import random
 import time
 
-from tqdm import tqdm
-
 from clicks import *
 from evaluate import get_idcg_list, evaluate, evaluate_ranking
 

@@ -44,8 +44,7 @@ def get_datasets(sim_args):
         assert data_tag in DATASET_COLLECTION, 'Command line input is currently not supported.'
         yield DATASET_COLLECTION[data_tag]
 
-
-data_fold = "/home/morgolt/Projects/VKR/LEROT3/data"
+data_fold = "/home/jovyan/work/Lerot3/data"
 DATASET_COLLECTION = {}
 DATASET_COLLECTION['NP2003'] = DataSet('2003_np', os.path.join(data_fold, 'NP2003', 'Fold*'),
                                        'bin', True, 59,
