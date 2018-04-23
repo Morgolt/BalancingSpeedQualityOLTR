@@ -44,9 +44,9 @@ def get_datasets(sim_args):
         assert data_tag in DATASET_COLLECTION, 'Command line input is currently not supported.'
         yield DATASET_COLLECTION[data_tag]
 
-data_fold = "/home/jovyan/work/Lerot3/data"
+data_fold = "/home/morgolt/Projects/vkr/data"
 DATASET_COLLECTION = {}
-DATASET_COLLECTION['NP2003'] = DataSet('2003_np', os.path.join(data_fold, 'NP2003', 'Fold*'),
+DATASET_COLLECTION['NP2003'] = DataSet('2003_np', os.path.join(data_fold, '2003_np', 'Fold*'),
                                        'bin', True, 59,
                                        multileave_feat=[
                                            range(11, 16),  # TF-IDF
@@ -55,7 +55,7 @@ DATASET_COLLECTION['NP2003'] = DataSet('2003_np', os.path.join(data_fold, 'NP200
                                            [41, 42],  # SiteMap
                                            [49, 50]  # HITS
                                        ])
-DATASET_COLLECTION['NP2004'] = DataSet('2004_np', os.path.join(data_fold, 'NP2004', 'Fold*'),
+DATASET_COLLECTION['NP2004'] = DataSet('2004_np', os.path.join(data_fold, '2004_np', 'Fold*'),
                                        'bin', True, 64,
                                        multileave_feat=[
                                            range(11, 16),  # TF-IDF
@@ -64,7 +64,7 @@ DATASET_COLLECTION['NP2004'] = DataSet('2004_np', os.path.join(data_fold, 'NP200
                                            [41, 42],  # SiteMap
                                            [49, 50]  # HITS #19 total
                                        ])
-DATASET_COLLECTION['HP2003'] = DataSet('2003_hp', os.path.join(data_fold, 'HP2003', 'Fold*'),
+DATASET_COLLECTION['HP2003'] = DataSet('2003_hp', os.path.join(data_fold, '2003_hp', 'Fold*'),
                                        'bin', True, 59,
                                        multileave_feat=[
                                            range(11, 16),  # TF-IDF
@@ -73,7 +73,7 @@ DATASET_COLLECTION['HP2003'] = DataSet('2003_hp', os.path.join(data_fold, 'HP200
                                            [41, 42],  # SiteMap
                                            [49, 50]  # HITS
                                        ])
-DATASET_COLLECTION['HP2004'] = DataSet('2004_hp', os.path.join(data_fold, 'HP2004', 'Fold*'),
+DATASET_COLLECTION['HP2004'] = DataSet('2004_hp', os.path.join(data_fold, '2004_hp', 'Fold*'),
                                        'bin', True, 64,
                                        multileave_feat=[
                                            range(11, 16),  # TF-IDF
@@ -82,7 +82,7 @@ DATASET_COLLECTION['HP2004'] = DataSet('2004_hp', os.path.join(data_fold, 'HP200
                                            [41, 42],  # SiteMap
                                            [49, 50]  # HITS
                                        ])
-DATASET_COLLECTION['TD2003'] = DataSet('2003_td', os.path.join(data_fold, 'TD2003', 'Fold*'),
+DATASET_COLLECTION['TD2003'] = DataSet('2003_td', os.path.join(data_fold, '2003_td', 'Fold*'),
                                        'bin', True, 59,
                                        multileave_feat=[
                                            range(11, 16),  # TF-IDF
@@ -91,7 +91,7 @@ DATASET_COLLECTION['TD2003'] = DataSet('2003_td', os.path.join(data_fold, 'TD200
                                            [41, 42],  # SiteMap
                                            [49, 50]  # HITS
                                        ])
-DATASET_COLLECTION['TD2004'] = DataSet('2004_td', os.path.join(data_fold, 'TD2004', 'Fold*'),
+DATASET_COLLECTION['TD2004'] = DataSet('2004_td', os.path.join(data_fold, '2004_td', 'Fold*'),
                                        'bin', True, 64,
                                        multileave_feat=[
                                            range(11, 16),  # TF-IDF
@@ -125,7 +125,7 @@ DATASET_COLLECTION['OHSUMED'] = DataSet('OHSUMED', os.path.join(data_fold, 'OHSU
                                         ])
 
 DATASET_COLLECTION['MSLR-WEB10k'] = DataSet('MSLR-WEB10k',
-                                            '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/MSLR-WEB10k/Fold*/',
+                                            os.path.join(data_fold, 'MSLR-WEB10k', 'Fold*'),
                                             'long',
                                             False, 136,
                                             multileave_feat=[
@@ -135,7 +135,7 @@ DATASET_COLLECTION['MSLR-WEB10k'] = DataSet('MSLR-WEB10k',
                                                 # range(96,106), #Boolean Model, Vector Space Model
                                             ])
 DATASET_COLLECTION['MSLR-WEB30k'] = DataSet('MSLR-WEB30k',
-                                            '/zfs/ilps-plex1/slurm/datastore/hooster2/datasets/MSLR-WEB30k/Fold*/',
+                                            os.path.join(data_fold, 'MSLR-WEB30k', 'Fold*'),
                                             'long',
                                             False, 136, max_folds=2,
                                             multileave_feat=[
